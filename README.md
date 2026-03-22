@@ -19,58 +19,83 @@ AutoWash-Finder is an interactive web application (MVP) that centralizes informa
 * Approve/delete new car washes from the database.
 * User role management.
 
-## 🗄️ Database Entity-Relationship (ER) Diagram
+## Database Entity-Relationship (ER) Diagram
 
 ```mermaid
 erDiagram
-    USERS ||--o{ WASH_STATIONS : "owns (1:N)"
-    USERS ||--o{ REVIEWS : "writes (1:N)"
-    WASH_STATIONS ||--|| STATION_DETAILS : "has (1:1)"
-    WASH_STATIONS ||--o{ REVIEWS : "receives (1:N)"
-    WASH_STATIONS ||--o{ STATION_SERVICES : "offers (M:N junction)"
-    SERVICES ||--o{ STATION_SERVICES : "included in (M:N junction)"
+    User ||--|| UserProfile : "has (1:1)"
+    User ||--o{ CarWash : "owns (1:N)"
+    User ||--o{ Booking : "makes (1:N)"
+    User ||--o{ Review : "writes (1:N)"
+    CarWash ||--o{ ServicePrice : "offers (1:N)"
+    WashService ||--o{ ServicePrice : "priced as (1:N)"
+    ServicePrice ||--o{ Booking : "is booked (1:N)"
+    CarWash ||--o{ Review : "receives (1:N)"
+    CarWash ||--o{ CarWash_Tag : "tagged with (M:N)"
+    Tag ||--o{ CarWash_Tag : "belongs to (M:N)"
 
-    USERS {
-        int id PK
-        string email UK
-        string password_hash
-        string role "driver, wash_admin"
-        datetime created_at
+    User {
+        BigInt id PK
+        Varchar email UK
+        Varchar password
+        Enum role "'CUSTOMER', 'OWNER', 'ADMIN'"
     }
 
-    WASH_STATIONS {
-        int id PK
-        int owner_id FK
-        string name
-        float latitude
-        float longitude
-        string status "active, inactive"
+    UserProfile {
+        BigInt id PK
+        BigInt user_id FK "UK"
+        Varchar phone_number
+        Varchar car_plate
+        Varchar preferred_payment_method
     }
 
-    STATION_DETAILS {
-        int station_id PK, FK
-        boolean has_card_payment
-        boolean is_nonstop
-        string contact_phone
+    CarWash {
+        BigInt id PK
+        BigInt owner_id FK
+        Varchar name
+        Varchar address
+        Double latitude
+        Double longitude
+        Enum status "'OPEN', 'CLOSED'"
     }
 
-    REVIEWS {
-        int id PK
-        int station_id FK
-        int user_id FK
-        int rating "1 to 5"
-        text comment
-        datetime created_at
+    WashService {
+        BigInt id PK
+        Varchar name
+        Text description
     }
 
-    SERVICES {
-        int id PK
-        string name "e.g., Active Foam, Hot Wax, Vacuum"
-        string description
+    ServicePrice {
+        BigInt id PK
+        BigInt car_wash_id FK
+        BigInt service_id FK
+        Decimal price
+        Int duration_minutes
     }
 
-    STATION_SERVICES {
-        int station_id PK, FK
-        int service_id PK, FK
-        decimal price "price per minute/token"
+    Booking {
+        BigInt id PK
+        BigInt user_id FK
+        BigInt service_price_id FK
+        Timestamp appointment_time
+        Enum status "'PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED'"
+    }
+
+    Review {
+        BigInt id PK
+        BigInt user_id FK
+        BigInt car_wash_id FK
+        Int rating "1-5"
+        Text comment
+        Timestamp created_at
+    }
+
+    Tag {
+        BigInt id PK
+        Varchar name UK
+    }
+
+    CarWash_Tag {
+        BigInt car_wash_id PK, FK
+        BigInt tag_id PK, FK
     }
