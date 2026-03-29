@@ -1,8 +1,6 @@
 spring:
-  application:
-    name: washify-api
   profiles:
-    [cite_start]active: dev # Setăm 'dev' ca profil implicit pentru dezvoltarea locală
+    active: dev
   jackson:
     serialization:
-      write-dates-as-timestamps: false # Bună practică pentru formate ISO-8601
+      write-dates-as-timestamps: false
