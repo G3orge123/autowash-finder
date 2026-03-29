@@ -5,8 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "roles")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
@@ -17,8 +16,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
     private RoleType name;
-}
-
-enum RoleType {
-    ROLE_USER, ROLE_ADMIN, ROLE_OWNER
 }
