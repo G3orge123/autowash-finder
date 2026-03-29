@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/washify_db
+    username: postgres
+    password: password_tau_aici
+    driver-class-name: org.postgresql.Driver
+  jpa:
+                hibernate:
+                  ddl-auto: update # Creează/Updatează tabelele automat la pornire
+    [cite_start]show-sql: true # Utile pentru debug în consolă [cite: 65]
+                properties:
+                  hibernate:
+                                format_sql: true
+                    [cite_start]dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect # Esențial pentru Waze/Geo [cite: 17]
