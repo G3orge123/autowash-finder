@@ -10,9 +10,11 @@ C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\ap
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\Review.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\UserProfile.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\infrastructure\repository\RoleRepository.java
+C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\service\AuthService.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\infrastructure\security\SecurityConfig.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\dto\AuthResponse.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\infrastructure\repository\UserRepository.java
+C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\Car.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\Role.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\TimeSlot.java
 C:\Users\flori\IdeaProjects\washify\autowash-finder\src\main\java\com\washify\api\core\domain\WashStation.java
