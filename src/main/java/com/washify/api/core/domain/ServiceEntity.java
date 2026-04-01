@@ -9,9 +9,12 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class ServiceEntity extends BaseEntity {
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
     private String description;
     private Double price;
     private Integer durationMinutes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wash_station_id", nullable = false)
+    private WashStation washStation;
 }
