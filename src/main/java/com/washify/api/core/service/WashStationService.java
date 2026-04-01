@@ -1,8 +1,11 @@
 package com.washify.api.core.service;
 
+import com.washify.api.core.domain.ServiceEntity;
 import com.washify.api.core.domain.User;
 import com.washify.api.core.domain.WashStation;
+import com.washify.api.core.dto.ServiceRequest;
 import com.washify.api.core.dto.WashStationRequest;
+import com.washify.api.infrastructure.repository.ServiceRepository;
 import com.washify.api.infrastructure.repository.UserRepository;
 import com.washify.api.infrastructure.repository.WashStationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ public class WashStationService {
 
     private final WashStationRepository washStationRepository;
     private final UserRepository userRepository;
+    private final ServiceRepository serviceRepository;
 
 
     private final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
@@ -31,12 +35,10 @@ public class WashStationService {
         User owner = userRepository.findById(request.ownerId())
                 .orElseThrow(() -> new RuntimeException("Eroare: Owner-ul cu ID " + request.ownerId() + " nu a fost găsit!"));
 
-
         WashStation station = new WashStation();
         station.setName(request.name());
         station.setAddress(request.address());
         station.setOwner(owner);
-
 
         Point location = geometryFactory.createPoint(new Coordinate(request.longitude(), request.latitude()));
         station.setLocation(location);
@@ -46,14 +48,12 @@ public class WashStationService {
 
     @Transactional(readOnly = true)
     public List<WashStation> getStationsForUser(User user) {
-
         boolean isAdmin = user.getRoles().stream()
                 .anyMatch(role -> role.getName().name().equals("ROLE_ADMIN"));
 
         if (isAdmin) {
             return washStationRepository.findAll();
         }
-
 
         return washStationRepository.findByOwnerId(user.getId());
     }
@@ -64,5 +64,26 @@ public class WashStationService {
             throw new RuntimeException("Spălătoria nu există!");
         }
         washStationRepository.deleteById(id);
+    }
+
+    @Transactional
+    public ServiceEntity addServiceToStation(Long stationId, ServiceRequest request) {
+        WashStation station = washStationRepository.findById(stationId)
+                .orElseThrow(() -> new RuntimeException("Stația cu ID-ul " + stationId + " nu a fost găsită!"));
+
+        ServiceEntity newService = new ServiceEntity();
+        newService.setName(request.name());
+        newService.setDescription(request.description());
+        newService.setPrice(request.price());
+        newService.setDurationMinutes(request.durationMinutes());
+
+        newService.setWashStation(station);
+
+        return serviceRepository.save(newService);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ServiceEntity> getServicesByStation(Long stationId) {
+        return serviceRepository.findByWashStationId(stationId);
     }
 }
