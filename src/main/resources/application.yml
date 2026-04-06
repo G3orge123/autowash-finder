@@ -4,3 +4,8 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+server:
+  error:
+    include-message: always
+    include-binding-errors: always

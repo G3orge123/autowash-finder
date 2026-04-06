@@ -11,3 +11,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+washify:
+  jwt:
+    secret: AceastaEsteOCheieSecretFoarteLungaSiSigura2026PentruWashifyStandardHS256!
+    expiration: 86400000

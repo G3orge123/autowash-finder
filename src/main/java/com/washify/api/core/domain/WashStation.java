@@ -3,7 +3,8 @@ package com.washify.api.core.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
-import java.util.Set;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,19 +20,14 @@ public class WashStation extends BaseEntity {
     private String address;
 
     @Column(columnDefinition = "geometry(Point, 4326)")
-    private Point location; // Suport PostGIS pentru Waze/Maps
+    private Point location;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @ManyToMany
-    @JoinTable(
-            name = "station_services",
-            joinColumns = @JoinColumn(name = "station_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id")
-    )
-    private Set<ServiceEntity> services;
+    @OneToMany(mappedBy = "washStation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceEntity> services = new ArrayList<>();
 
     @OneToMany(mappedBy = "washStation", cascade = CascadeType.ALL)
     private List<TimeSlot> slots;
