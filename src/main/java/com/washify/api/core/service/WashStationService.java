@@ -46,6 +46,9 @@ public class WashStationService {
         return washStationRepository.save(station);
     }
 
+    public List<WashStation> findAll() {
+        return washStationRepository.findAll();
+    }
     @Transactional(readOnly = true)
     public List<WashStation> getStationsForUser(User user) {
         boolean isAdmin = user.getRoles().stream()
@@ -86,4 +89,8 @@ public class WashStationService {
     public List<ServiceEntity> getServicesByStation(Long stationId) {
         return serviceRepository.findByWashStationId(stationId);
     }
+    public WashStation findById(Long id) {
+        return washStationRepository.findById(id).orElse(null);
+    }
+
 }
